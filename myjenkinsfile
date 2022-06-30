@@ -1,0 +1,45 @@
+node("")
+{
+def MHD = tool name: "maven3.8.5" 
+stage ("1.Inititation"){
+sh "echo start of Optimizer application build"
+}
+stage ("2.GitClone"){
+sh "echo start git clone"
+git "https://github.com/IfeomaAnyanwu/maven-web-app.git"
+}
+stage ("3.Build"){
+sh "echo build the application with maven"
+sh "${MHD}/bin/mvn package"
+}
+stage ("4.CodeQuality"){
+sh "echo performing code test with sonarqube"
+sh "${MHD}/bin/mvn sonar:sonar"
+}
+stage ("5.Artifactory"){
+sh "echo backup to Nexus"
+sh "${MHD}/bin/mvn deploy"
+}
+stage ("6.DeployToUAT"){
+sh "echo deploy to UAT App server-Tomcat"
+deploy adapters: [tomcat9(credentialsId: 'tomcat-cred', path: '', url: 'http://3.92.203.53:7000/')], contextPath: null, war: 'target/*.war'
+}
+stage ("7.Approval"){
+  sh "echo Approval Needed"
+  timeout(time:5, unit:'DAYS'){
+    input message: 'Approval for Production'
+  }
+stage ("8.DeployToPROD"){
+sh "echo deploy to Production App server-Tomcat"
+deploy adapters: [tomcat9(credentialsId: 'tomcat-cred', path: '', url: 'http://3.92.203.53:7000/')], contextPath: null, war: 'target/*.war'
+}
+
+stage ("9.EmailNotification"){
+sh "echo send email notification to Optimizers"
+emailext body: 'Just trying out things on Groovy Scripting', subject: 'Testing Scripted Groovy Script', to: 'ifymmadu2002@yahoo.com'
+}
+stage ("10.SlackNotification"){
+sh "echo send slack notification to Optimizers"
+slackSend channel: 'cohort-7-group-3-optimizers', message: 'Build Success using Scripted Groovy Script in Pipeline Project'
+}
+}
