@@ -22,7 +22,7 @@ sh "${MHD}/bin/mvn deploy"
 }
 stage ("6.DeployToUAT"){
 sh "echo deploy to UAT App server-Tomcat"
-deploy adapters: [tomcat9(credentialsId: 'tomcat-cred', path: '', url: 'http://3.92.203.53:7000/')], contextPath: null, war: 'target/*.war'
+deploy adapters: [tomcat9(credentialsId: 'tomcat-cred', path: '', url: 'http://52.70.145.20:7000/')], contextPath: null, war: 'target/*.war'
 }
 stage ("7.Approval"){
   sh "echo Approval Needed"
@@ -31,7 +31,7 @@ stage ("7.Approval"){
   }
 stage ("8.DeployToPROD"){
 sh "echo deploy to Production App server-Tomcat"
-deploy adapters: [tomcat9(credentialsId: 'tomcat-cred', path: '', url: 'http://3.92.203.53:7000/')], contextPath: null, war: 'target/*.war'
+deploy adapters: [tomcat9(credentialsId: 'tomcat-cred', path: '', url: 'http://52.70.145.20:7000/')], contextPath: null, war: 'target/*.war'
 }
 
 stage ("9.EmailNotification"){
