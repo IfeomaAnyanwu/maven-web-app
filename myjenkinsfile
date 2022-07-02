@@ -1,6 +1,6 @@
 node("")
 {
-def MHD = tool name: "maven3.8.5" 
+def MHD = tool name:"maven3.8.5" 
 stage ("1.Inititation"){
 sh "echo start of Optimizer application build"
 }
@@ -8,9 +8,9 @@ stage ("2.GitClone"){
 sh "echo start git clone"
 git "https://github.com/IfeomaAnyanwu/maven-web-app.git"
 }
-stage ("3.Build"){
-sh "echo build the application with maven"
-sh "${MHD}/bin/mvn package"
+stage('3.Build'){
+    sh "echo Build package"
+    sh "${MHD}/bin/mvn package"
 }
 stage ("4.CodeQuality"){
 sh "echo performing code test with sonarqube"
@@ -22,7 +22,7 @@ sh "${MHD}/bin/mvn deploy"
 }
 stage ("6.DeployToTomcat"){
 sh "echo deploy to App server-Tomcat"
-deploy adapters: [tomcat9(credentialsId: 'tomcat-cred', path: '', url: 'http://44.201.114.148:7000/')], contextPath: null, war: 'target/*.war'
+deploy adapters: [tomcat9(credentialsId: 'tomcat-cred', path: '', url: 'http://3.91.179.217:7000/')], contextPath: null, war: 'target/*.war'
 }
 stage ("7.EmailNotification"){
 sh "echo send email notification to Optimizers"
