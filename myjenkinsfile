@@ -30,7 +30,7 @@ emailext body: 'Just trying out things on Groovy Scripting', subject: 'Testing S
 }
 stage ("8.SlackNotification"){
 sh "echo send slack notification to Optimizers"
-slackSend channel: 'cohort-7-group-3-optimizers', message: 'Successful Continuous Deployment Scripted Groovy Script Pipeline Build'
+slackSend channel: 'cohort-7-group-3-optimizers', message: 'JenkinsFIle Pipeline successfully Build'
 }
 }
 
