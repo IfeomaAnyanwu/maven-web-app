@@ -1,6 +1,6 @@
 node("")
 {
-def MHD = tool name:"maven3.8.5" 
+def MHD = tool name: "maven3.8.5" 
 stage ("1.Inititation"){
 sh "echo start of Optimizer application build"
 }
@@ -8,9 +8,9 @@ stage ("2.GitClone"){
 sh "echo start git clone"
 git "https://github.com/IfeomaAnyanwu/maven-web-app.git"
 }
-stage('3.Build'){
-    sh "echo Build package"
-    sh "${MHD}/bin/mvn package"
+stage ("3.Build"){
+sh "echo build the application with maven"
+sh "${MHD}/bin/mvn package"
 }
 stage ("4.CodeQuality"){
 sh "echo performing code test with sonarqube"
@@ -30,7 +30,7 @@ emailext body: 'Just trying out things on Groovy Scripting', subject: 'Testing S
 }
 stage ("8.SlackNotification"){
 sh "echo send slack notification to Optimizers"
-slackSend channel: 'cohort-7-group-3-optimizers', message: 'Jenkinsfile Pipeline Build Successful'
+slackSend channel: 'cohort-7-group-3-optimizers', message: 'Successful Continuous Deployment Scripted Groovy Script Pipeline Build'
 }
 }
 
